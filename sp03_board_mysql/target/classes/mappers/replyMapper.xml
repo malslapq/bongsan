@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="replyMapper">
+
+	<insert id="insert" parameterType="ReplyDTO">
+		insert into reply (bnum, writer, content) 
+		values (#{bnum}, #{writer}, #{content})
+	</insert>
+	
+	<select id="selectList" resultType="ReplyDTO">
+		select * from reply
+		where bnum = #{bnum}
+		order by rnum
+	</select>	
+	
+	<delete id="delete">
+		delete from reply
+		where rnum = #{rnum}
+	</delete>
+	
+	<delete id="deleteAll">
+		delete from reply
+		where bnum = #{bnum}
+	</delete>
+	
+	<update id="update" parameterType="ReplyDTO">
+		update reply 
+		set content = #{content} 
+		where rnum = #{rnum}
+	</update>
+	
+</mapper>

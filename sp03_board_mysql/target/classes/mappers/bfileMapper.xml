@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bfileMapper">
+	<select id="selectList" resultType="BFileDTO">
+		select * from bfile where bnum = #{bnum}
+	</select>
+	<insert id="insert">
+		insert into bfile (bnum, filename) 
+		values (#{bnum}, #{filename}) 
+	</insert>
+	
+	<update id="update">
+		update bfile 
+		set 
+			filename = #{filename}
+		where fnum = #{fnum}	
+	
+	</update>	
+	
+	<delete id="delete">
+		delete from bfile where bnum = #{bnum}
+	</delete>
+	
+	<!-- 수정시 일부 파일 삭제 -->
+	<delete id="delete_part">
+		delete from bfile
+		where bnum = #{bnum}
+		<if test="fnums !=''">
+			and fnum not in (${fnums}) <!-- 34, 56 -->
+		</if>
+	</delete>
+	
+</mapper>

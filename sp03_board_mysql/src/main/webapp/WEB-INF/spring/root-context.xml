@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- 데이타 소스 객체 만들기 -->
+	<!-- bean : 객체를 스프링 프레임워크가 만든다 -->
+<!-- 	<bean id="dataSource" 
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>			
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+		<property name="username" value="hr"/>
+		<property name="password" value="hr"/>
+	</bean> -->
+	
+	<!-- mysql연결 -->
+	<bean id="dataSource" 
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>			
+		<property name="url" value="jdbc:mysql://localhost:3306/testdb?useSSL=false&amp;serverTimezone=UTC"/>
+		<property name="username" value="root"/>
+		<property name="password" value="1020"/>
+	</bean>
+	
+	<!-- mybatis-spring라이브러리 필요 -->
+	<bean id="sqlSessionFactory" 
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="configLocation" value="classpath:/mybatisConfig.xml"/>
+		<property name="mapperLocations" value="classpath:/mappers/**/*Mapper.xml"/>
+	</bean>
+	<!-- 마이바티스 세션 생성 -->
+	<!-- 생성자에 factory 넣어준다 -->
+	<!-- template를 이용하면 객체 관리 해준다 -->
+	<bean id ="sqlSession"
+		class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
+	</bean>
+	
+	<!-- 파일업로드 디렉토리 bean -->
+	<!-- String saveDir = new java.lang.String("D:\ksy\upload"); -->
+	<bean id="saveDir" class="java.lang.String">
+		<constructor-arg value="D:/ksy/fileUpload"/>
+	</bean>	
+	
+	<!-- 트랜잭션 매니져 객체 생성 -->
+	<bean id="transactionManager" 
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	<!-- 트랜잭션 어노테이션 이용가능 -->
+	<tx:annotation-driven/>
+	
+	<!-- aop설정을 통해서 자동으로 porxy객체 생성 -->
+	<aop:aspectj-autoproxy/>
+	
+	<context:component-scan base-package="com.myboard.service" />
+	<context:component-scan base-package="com.myboard.dao" />
+	<context:component-scan base-package="com.myboard.advice" />
+	
+
+</beans>
