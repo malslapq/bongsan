@@ -8,25 +8,36 @@ import org.json.simple.parser.ParseException;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.myboard.dto.BoardDTO;
+import com.myboard.dto.BoardLikeDTO;
 import com.myboard.dto.PageDTO;
 
 public interface BoardService {
-	//��ü��ȸ
+	//전체조회
 	public List<BoardDTO> selectList(PageDTO pdto) throws Exception;
-	//�Ѱ���ȸ
+	//한건조회
 	public Map<String, Object> selectOne(int bnum) throws Exception;
-	//�߰�
+	//추가
 	public int insert(BoardDTO bdto, List<MultipartFile> bfiles) throws Exception;
-	//����
+	//수정
 	public int update(BoardDTO bdto, List<Integer> fnumList,List<MultipartFile> bfiles) throws Exception;
-	//����
+	//삭제
 	public int delete(int bnum) throws Exception;
-	//��ȸ�� +1
+	//조회수 +1
 	public int readcnt_update(int bnum) throws Exception;
-	//��ۼ� + 1
+	//댓글수 + 1
 	public int replycntUp_update(int bnum) throws Exception;
-	//��ۼ� -1
+	//댓글수 -1
 	public int replycntDown_update(int bnum) throws Exception;
-	//����
+	//지도
 	public Map<String, Double> getGeocoding(String addr) throws IOException, ParseException;
+	//좋아요 순 정렬
+	
+	//싫어요 순 정렬
+	
+	//좋아요 업데이트
+	public void likeupdate(int bnum, String userid) throws Exception;
+	//싫어요 업데이트
+	public void dislikeupdate(int bnum, String userid) throws Exception;
+	//boardlike테이블 확인
+	public BoardLikeDTO likecheck(int bnum, String userid) throws Exception;
 }

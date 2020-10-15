@@ -49,9 +49,15 @@
 	<!-- 파일업로드 디렉토리 bean -->
 	<!-- String saveDir = new java.lang.String("D:\ksy\upload"); -->
 	<bean id="saveDir" class="java.lang.String">
-		<constructor-arg value="D:/ksy/fileUpload"/>
+		<constructor-arg value="D:/hsh/fileUpload"/>
 	</bean>	
-	
+	<!-- 암호화를 위한 bean 생성 -->
+	<bean id="bcryptPasswordEncoder" 
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+		<!-- salt값 생성자에 추가 -->
+		<constructor-arg name="strength" value="5"/>
+	</bean>
+
 	<!-- 트랜잭션 매니져 객체 생성 -->
 	<bean id="transactionManager" 
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

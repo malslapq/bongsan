@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.myboard.dao.BFileDAO;
 import com.myboard.dto.BFileDTO;
 
-/*½ºÇÁ¸µ Å×½ºÆ®*/
+/*ìŠ¤í”„ë§ í…ŒìŠ¤íŠ¸*/
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/root-context.xml"})
 public class fdaoTest {
@@ -23,7 +23,6 @@ public class fdaoTest {
 	@Test
 	public void testSelectList() throws Exception {
 		List<BFileDTO> list = fdao.selectList(3);
-		System.out.println(list);
 		Assert.assertNotNull(list);
 	}
 

@@ -9,7 +9,7 @@ public class CommonExceptionAdvice {
 
 	@ExceptionHandler(Exception.class)
 	public String common(Exception e, Model model) {
-		System.out.println("¿¹¿Ü¹ß»ı");
+		System.out.println("ì˜ˆì™¸ë°œìƒ");
 		model.addAttribute("exception",e);
 		e.printStackTrace();
 		return "error_common";

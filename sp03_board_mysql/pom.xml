@@ -15,12 +15,13 @@
 	</properties>
 	<dependencies>
 	<!-- mysql 다운로드 -->
-		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+	<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
 		    <groupId>mysql</groupId>
 		    <artifactId>mysql-connector-java</artifactId>
-		    <version>5.1.39</version>
+		    <version>8.0.16</version>
 		</dependency>
+
 		<!-- 오라클 다운로드 -->
 		<!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc6 -->
 		<dependency>
@@ -92,7 +93,7 @@
 		    <version>${org.springframework-version}</version>
 		</dependency>
 
-<!-- 파일업로드 -->		
+	<!-- 파일업로드 -->		
 	<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
 	<dependency>
 	    <groupId>commons-fileupload</groupId>

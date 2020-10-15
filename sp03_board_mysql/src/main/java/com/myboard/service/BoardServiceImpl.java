@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.myboard.dao.BoardDAO;
 import com.myboard.dto.BoardDTO;
+import com.myboard.dto.BoardLikeDTO;
 import com.myboard.dto.PageDTO;
 
 @Service
@@ -38,31 +39,31 @@ public class BoardServiceImpl implements BoardService{
 	
 	@Override
 	public List<BoardDTO> selectList(PageDTO pdto) throws Exception {
-		//------pdto ±¸ÇÏ±â----------
-		//ÀüÃ¼°Ô½Ã¹°¼ö
+		//------pdto êµ¬í•˜ê¸°----------
+		//ì „ì²´ê²Œì‹œë¬¼ìˆ˜
 		int totCnt = bdao.totolCount(pdto);
-		//ÀüÃ¼ÆäÀÌÁö¼ö
+		//ì „ì²´í˜ì´ì§€ìˆ˜
 		int totPage = totCnt / pdto.getPerPage();
 		if ((totCnt % pdto.getPerPage()) != 0 ) totPage = totPage + 1;
 		pdto.setTotPage(totPage);
 		
-		//ÇöÀçÆäÀÌÁö
+		//í˜„ì¬í˜ì´ì§€
 		int curPage = pdto.getCurPage();
-		//½ÃÀÛ¹øÈ£(mysqlÀº 0¹ø ÀÎµ¦½ººÎÅÍ)
+		//ì‹œì‘ë²ˆí˜¸(mysqlì€ 0ë²ˆ ì¸ë±ìŠ¤ë¶€í„°)
 		int startNo = (curPage-1) * pdto.getPerPage();
 		pdto.setStartNo(startNo);
-		//³¡¹øÈ£
+		//ëë²ˆí˜¸
 		int endNo = startNo + pdto.getPerPage() -1;
 		pdto.setEndNo(endNo);
-		//½ÃÀÛÆäÀÌÁö
+		//ì‹œì‘í˜ì´ì§€
 		int startPage = curPage - ((curPage-1) % pdto.getPerBlock());
 		pdto.setStartPage(startPage);
-		//³¡ÆäÀÌÁö
+		//ëí˜ì´ì§€
 		int endPage = startPage + pdto.getPerBlock()-1;
 		if (endPage > totPage) endPage = totPage;
 		pdto.setEndPage(endPage);
 		
-		// ÀüÃ¼Á¶È¸
+		// ì „ì²´ì¡°íšŒ
 		return bdao.selectList(pdto);
 	}
 
@@ -70,43 +71,39 @@ public class BoardServiceImpl implements BoardService{
 	public Map<String, Object> selectOne(int bnum) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		
-		// °Ô½Ã¹° ÇÑ°ÇÁ¶È¸
+		// ê²Œì‹œë¬¼ í•œê±´ì¡°íšŒ
 		map.put("board", bdao.selectOne(bnum));
-		//ÆÄÀÏ ¸®½ºÆ® Á¶È¸
+		//íŒŒì¼ ë¦¬ìŠ¤íŠ¸ ì¡°íšŒ
 		map.put("flist",fservice.selectList(bnum));
 		
 		return map;
 		
 	}
 	
-	//Æ®·£Àè¼Ç Ã³¸®
+	//íŠ¸ëœì­ì…˜ ì²˜ë¦¬
 	@Transactional
 	@Override
 	public int insert(BoardDTO bdto, List<MultipartFile> bfiles) throws Exception {
-		// °Ô½Ã¹° Ãß°¡
+		// ê²Œì‹œë¬¼ ì¶”ê°€
 		bdao.insert(bdto);
-		int bnum = bdto.getBnum(); //°Ô½Ã¹° ¹øÈ£
-		
-		//ÆÄÀÏ ÀúÀå
+		int bnum = bdto.getBnum(); //ê²Œì‹œë¬¼ ë²ˆí˜¸
+		//íŒŒì¼ ì €ì¥
 		List<String> filenameList = fservice.fileUpload(bfiles);
-		//ÆÄÀÏ Ãß°¡
+		//íŒŒì¼ ì¶”ê°€
 		fservice.insert(bnum, filenameList);
-		
 		return bnum;
 	}
 
 	@Override
 	public int update(BoardDTO bdto, List<Integer> fnumList,List<MultipartFile> bfiles) throws Exception {
-		// °Ô½Ã¹° ¼öÁ¤
+		// ê²Œì‹œë¬¼ ìˆ˜ì •
 		bdao.update(bdto);
 		int bnum = bdto.getBnum();
-		//ÆÄÀÏ »èÁ¦
+		//íŒŒì¼ ì‚­ì œ
 		fservice.delete_part(bnum,fnumList);
-		
-		
-		//ÆÄÀÏ ÀúÀå
+		//íŒŒì¼ ì €ì¥
 		List<String> filenameList = fservice.fileUpload(bfiles);
-		//ÆÄÀÏ Ãß°¡
+		//íŒŒì¼ ì¶”ê°€
 		fservice.insert(bnum, filenameList);
 		return 0;
 	}
@@ -114,44 +111,43 @@ public class BoardServiceImpl implements BoardService{
 	@Transactional
 	@Override
 	public int delete(int bnum) throws Exception {
-		//ÁÖÀÇ : ÀÚ½ÄÅ×ÀÌºí »èÁ¦ÈÄ ºÎ¸ğÅ×ÀÌºí »èÁ¦(foreign key°ü°è)
-		//ÆÄÀÏ »èÁ¦
+		//ì£¼ì˜ : ìì‹í…Œì´ë¸” ì‚­ì œí›„ ë¶€ëª¨í…Œì´ë¸” ì‚­ì œ(foreign keyê´€ê³„)
+		//ì¢‹ì•„ìš”, ì‹«ì–´ìš” ì‚­ì œ
+		bdao.likedelete(bnum);
+		//íŒŒì¼ ì‚­ì œ
 		fservice.delete(bnum);
-		
-		//´ñ±Û »èÁ¦
+		//ëŒ“ê¸€ ì‚­ì œ
 		rservice.deleteAll(bnum);
-		
-		// °Ô½Ã¹° »èÁ¦
+		// ê²Œì‹œë¬¼ ì‚­ì œ
 		bdao.delete(bnum);
-
 		return 0;
 	}
 
 	@Override
 	public int readcnt_update(int bnum) throws Exception {
-		// Á¶È¸¼ö +1
+		// ì¡°íšŒìˆ˜ +1
 		return bdao.readcnt_update(bnum);
 	}
 
 	@Override
 	public int replycntUp_update(int bnum) throws Exception {
-		// ´ñ±Û¼ö +1
+		// ëŒ“ê¸€ìˆ˜ +1
 		return bdao.replycntUp_update(bnum);
 	}
 
 	@Override
 	public int replycntDown_update(int bnum) throws Exception {
-		// ´ñ±Û¼ö -1
+		// ëŒ“ê¸€ìˆ˜ -1
 		return bdao.replycntDown_update(bnum);
 	}
 
 	@Override
 	public Map<String, Double> getGeocoding(String addr) throws IOException, ParseException {
-		//¸®ÅÏ°´Ã¼ »ı¼º
+		//ë¦¬í„´ê°ì²´ ìƒì„±
 		Map<String, Double> map = new HashMap<String, Double>();
 //		System.out.println("getGeocoding:"+addr);
 		addr = URLEncoder.encode(addr, "utf-8");
-		//Geocoding apiÈ£Ãâ
+		//Geocoding apií˜¸ì¶œ
 		String api = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query="+addr;
 		URL url = new URL(api);
 		HttpURLConnection http = (HttpURLConnection) url.openConnection();
@@ -170,16 +166,86 @@ public class BoardServiceImpl implements BoardService{
 			JSONArray array = (JSONArray)object.get("addresses");
 			for(int i = 0; i < array.size(); i++) {
 				object = (JSONObject)array.get(i);
-				String roadAddress = (String) object.get("roadAddress");
-				// x = °æµµ, y = À§µµ
+//				String roadAddress = (String) object.get("roadAddress");
+				// x = ê²½ë„, y = ìœ„ë„
 				double x = Float.parseFloat((String) object.get("x"));
 				double y = Float.parseFloat((String) object.get("y"));
-//				System.out.println("µµ·Î¸í : "+roadAddress+", À§µµ : "+y+", °æµµ :"+x);
+//				System.out.println("ë„ë¡œëª… : "+roadAddress+", ìœ„ë„ : "+y+", ê²½ë„ :"+x);
 				map.put("x", x);
 				map.put("y", y);
 			}
 		}
 		return map;
+	}
+
+	@Transactional
+	@Override
+	public void likeupdate(int bnum, String userid) throws Exception {
+		BoardLikeDTO ldto = new BoardLikeDTO();
+		BoardDTO bdto = new BoardDTO();
+		bdto.setBnum(bnum);
+		ldto.setBnum(bnum);
+		ldto.setUserid(userid);
+		ldto.setLikecnt(1);
+		//í…Œì´ë¸”ì— ë°ì´í„°ê°€ ì—†ì„ ê²½ìš°
+		if (bdao.likecheck(ldto) == null) {
+			//boardlike í…Œì´ë¸” 
+			bdao.likeinsert(ldto);
+			bdto.setLikecnt(1);
+			//board í…Œì´ë¸”
+			bdao.boardLcntupdate(bdto);
+		}
+		else {
+			//í…Œì´ë¸”ì— ë°ì´í„°ê°€ ìˆì„ ê²½ìš°
+			ldto = bdao.likecheck(ldto);
+			if (ldto.getLikecnt() == 1) {
+				bdto.setLikecnt(-1);
+				ldto.setLikecnt(0);
+			}
+			else {
+				bdto.setLikecnt(1);
+				ldto.setLikecnt(1);
+			}
+			bdao.boardLcntupdate(bdto);
+			bdao.likeupdate(ldto);
+		}
+	}
+	
+	@Transactional
+	@Override
+	public void dislikeupdate(int bnum, String userid) throws Exception {
+		BoardLikeDTO ldto = new BoardLikeDTO();
+		BoardDTO bdto = new BoardDTO();
+		bdto.setBnum(bnum);
+		ldto.setBnum(bnum);
+		ldto.setUserid(userid);
+		ldto.setDislikecnt(1);
+		if (bdao.likecheck(ldto) == null) {
+			bdao.dislikeinsert(ldto);
+			bdto.setDislike(1);
+			bdao.boardDlcntupdate(bdto);
+		}
+		else {
+			ldto = bdao.likecheck(ldto);
+			if (ldto.getDislikecnt() == 1) {
+				ldto.setDislikecnt(0);
+				bdto.setDislike(-1);
+			}
+			else {
+				ldto.setDislikecnt(1);
+				bdto.setDislike(1);
+			}
+			bdao.boardDlcntupdate(bdto);
+			bdao.dislikeupdate(ldto);
+		}
+	}
+
+	@Override
+	public BoardLikeDTO likecheck(int bnum, String userid) throws Exception {
+		BoardLikeDTO ldto = new BoardLikeDTO();
+		ldto.setBnum(bnum);
+		ldto.setUserid(userid);
+		return bdao.likecheck(ldto);
 	}
 
 }

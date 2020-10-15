@@ -11,12 +11,14 @@ public class BoardDTO {
 	private int readcnt;
 	private int replycnt;
 	private Date regdate;
+	private int likecnt;
+	private int dislikecnt;
 	private Date updatedate;
 	public BoardDTO() {
 		super();
 	}
 	public BoardDTO(int bnum, String writer, String email, String subject, String content, int readcnt, int replycnt,
-			Date regdate, Date updatedate) {
+			Date regdate, int likecnt, int dislikecnt, Date updatedate) {
 		super();
 		this.bnum = bnum;
 		this.writer = writer;
@@ -26,6 +28,8 @@ public class BoardDTO {
 		this.readcnt = readcnt;
 		this.replycnt = replycnt;
 		this.regdate = regdate;
+		this.likecnt = likecnt;
+		this.dislikecnt = dislikecnt;
 		this.updatedate = updatedate;
 	}
 	public int getBnum() {
@@ -82,11 +86,23 @@ public class BoardDTO {
 	public void setUpdatedate(Date updatedate) {
 		this.updatedate = updatedate;
 	}
+	public int getLikecnt() {
+		return likecnt;
+	}
+	public void setLikecnt(int likecnt) {
+		this.likecnt = likecnt;
+	}
+	public int getDislikecnt() {
+		return dislikecnt;
+	}
+	public void setDislike(int dislikecnt) {
+		this.dislikecnt = dislikecnt;
+	}
 	@Override
 	public String toString() {
 		return "BoardDTO [bnum=" + bnum + ", writer=" + writer + ", email=" + email + ", subject=" + subject
 				+ ", content=" + content + ", readcnt=" + readcnt + ", replycnt=" + replycnt + ", regdate=" + regdate
-				+ ", updatedate=" + updatedate + "]";
+				+ ", likecnt=" + likecnt + ", dislikecnt=" + dislikecnt + ", updatedate=" + updatedate + "]";
 	}
 	
 	

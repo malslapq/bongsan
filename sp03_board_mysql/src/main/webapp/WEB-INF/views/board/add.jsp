@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../include/includeFile.jsp" %>    
+<%@ include file="../include/includeFile.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,54 +40,52 @@
 							'<button class="btnFileDelete">삭제</button>'+		
 							'</div>';
 			$('#fileGroup').append(appendHtml);
-			
 		});
-
-		
 	});
  </script>
 </head>
 <body>
-	<h2>게시글 저장</h2>
-	
+	<h2 class="alert alert-primary">글쓰기</h2>
+	<div class="container">
+	<%@ include file="maininclude.jsp" %>
 	<form id="addForm">
-		<table border="1">
+		<table class="table table-hover" >
 			<tr>
 				<td>작성자</td>
-				<td><input type="text" name="writer"></td>
+				<td><input class="form-control" type="text" name="writer" value="${userid}" readonly="readonly"></td>
 			</tr>
 			<tr>
 				<td>이메일</td>
-				<td><input type="email" name="email"></td>
+				<td><input class="form-control" type="email" name="email"></td>
 			</tr>
 			<tr>
 				<td>제목</td>
-				<td> <input type="text" name="subject"></td>
+				<td> <input class="form-control" type="text" name="subject"></td>
 			</tr>
 			<tr>
 				<td>내용</td>
-				<td><textarea name="content" rows="5" cols="20"></textarea> </td>
+				<td><textarea class="form-control" name="content" rows="5" cols="20"></textarea> </td>
 			</tr>
 			<tr>
 				<td>파일</td>
 				<td>
 					<div id = "fileGroup">
 						<div>
-							<input type="file" name="bfiles">	
-							<button class="btnFileDelete">삭제</button>		
+							<input style="width: 50%" class="form-control-file border" type="file" name="bfiles">	
+							<button class="btn btn-danger" class="btnFileDelete">삭제</button>		
 						</div>
 					</div>
 				</td>	
 			</tr>
 			<tr>
-				<td colspan="2">
-					<button id="btnAdd">저장</button>
-					<button id="btnList">목록</button>
+				<td class="container" colspan="2">
+					<button  class="btn" id="btnAdd">저장</button>
+					<button class="btn" id="btnList">목록</button>
 				</td>
 				
 			</tr>
 		</table>
-		 
 	</form>
+	</div>
 </body>
 </html>

@@ -6,13 +6,15 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.parser.ParseException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,7 +33,6 @@ import com.myboard.service.BoardService;
 @RequestMapping("/board")
 @SessionAttributes("pdto") 
 public class BoardController {
-	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 
 	@Resource 
 	private BoardService bservice;
@@ -39,54 +40,77 @@ public class BoardController {
 	@Resource 
 	private BFileService fservice;
 	
-	//¸ŞÀÎ ÆûÀ¸·Î ÀÌµ¿
+	//ë©”ì¸ í¼ìœ¼ë¡œ ì´ë™
 	@RequestMapping("/")
 	public String listMove(PageDTO pdto, Model model) throws Exception {
-		//@SessionAttributes("pdto") »ı¼º
+		//@SessionAttributes("pdto") ìƒì„±
 		model.addAttribute("pdto", pdto);
 		return "board/main";
 	}
 	
-	//Á¶È¸
-	//@ModelAttribute("pdto") : view±îÁö Á¤º¸ Àü´Ş
-	//@ModelAttribute ´Â @SessionAttributesÀÇ °ª ¼¼ÆÃ
+	//ì¡°íšŒ
+	//@ModelAttribute("pdto") : viewê¹Œì§€ ì •ë³´ ì „ë‹¬
+	//@ModelAttribute ëŠ” @SessionAttributesì˜ ê°’ ì„¸íŒ…
 	@RequestMapping("/list")
 	public void boardList(@ModelAttribute("pdto") PageDTO pdto, Model model) throws Exception {
 		List<BoardDTO> blist = bservice.selectList(pdto);
 		model.addAttribute("blist", blist);
 	}
+
 	
-	//Ãß°¡ÆûÀ¸·Î
+	// like dislike insert,update
+	@RequestMapping(value = "/{bnum}", method = RequestMethod.GET)
+	public ResponseEntity<BoardDTO>  likeupdate(@PathVariable("bnum") int bnum, HttpSession session) throws Exception {
+		String userid = (String)session.getAttribute("userid");
+		bservice.likeupdate(bnum, userid);
+		Map<String, Object> map = bservice.selectOne(bnum);
+		BoardDTO bdto = (BoardDTO) map.get("board");
+		return new ResponseEntity<BoardDTO>(bdto, HttpStatus.OK);
+	}
+	@RequestMapping(value = "/{bnum}", method = RequestMethod.POST)
+	public ResponseEntity<BoardDTO> dislikeupdate(@PathVariable("bnum") int bnum, HttpSession session) throws Exception {
+		String userid = (String)session.getAttribute("userid");
+		bservice.dislikeupdate(bnum, userid);
+		Map<String, Object> map = bservice.selectOne(bnum);
+		BoardDTO bdto = (BoardDTO) map.get("board");
+		return new ResponseEntity<BoardDTO>(bdto, HttpStatus.OK);
+	}
+	
+	//ì¶”ê°€í¼ìœ¼ë¡œ
 	@RequestMapping(value="/add", method = RequestMethod.GET)
-	public void boardAdd() throws Exception {}
+	public void boardAdd(Model model, HttpSession session) throws Exception {
+		String userid = (String) session.getAttribute("userid");
+		model.addAttribute("userid", userid);
+	}
 	
-	//Ãß°¡
+	//ì¶”ê°€
 	@RequestMapping(value="/add", method = RequestMethod.POST)
-	public String boardAdd(BoardDTO bdto, List<MultipartFile> bfiles,RedirectAttributes rattr) throws Exception {
+	public String boardAdd(BoardDTO bdto, List<MultipartFile> bfiles, RedirectAttributes rattr) throws Exception {
 		bservice.insert(bdto, bfiles);
-		rattr.addFlashAttribute("msg", "Ãß°¡¿Ï·á");
+		rattr.addFlashAttribute("msg", "ì¶”ê°€ì™„ë£Œ");
 		return "redirect:/board/list";		
 	}
 	
-	//ÇÑ°ÇÁ¶È¸ÈÄ »ó¼¼ÆäÀÌÁö·Î ÀÌµ¿
+	//í•œê±´ì¡°íšŒí›„ ìƒì„¸í˜ì´ì§€ë¡œ ì´ë™
 	@RequestMapping("/detail")
-	public void boardDetail(int bnum, Model model) throws Exception {
-		//Á¶È¸¼ö +1
+	public void boardDetail(int bnum, Model model, HttpSession session) throws Exception {
+		//ì¡°íšŒìˆ˜ +1
 		bservice.readcnt_update(bnum);
-
 		Map<String, Object> resultMap = bservice.selectOne(bnum);
 		model.addAttribute("board", resultMap.get("board"));
 		model.addAttribute("flist", resultMap.get("flist"));
+		model.addAttribute("userid", session.getAttribute("userid"));
 	}
-	//»èÁ¦
+	
+	//ì‚­ì œ
 	@RequestMapping("/delete")
 	public String boardDelete(int bnum, Model model, RedirectAttributes rattr) throws Exception {
 		bservice.delete(bnum);
-		rattr.addFlashAttribute("msg", "»èÁ¦¿Ï·á");
+		rattr.addFlashAttribute("msg", "ì‚­ì œì™„ë£Œ");
 		return "redirect:/board/list";
 	}
 	
-	//¼öÁ¤ÆûÀ¸·Î
+	//ìˆ˜ì •í¼ìœ¼ë¡œ
 	@RequestMapping(value="/modify", method = RequestMethod.GET)
 	public void boardModify(int bnum, Model model) throws Exception {
 		Map<String, Object> resultMap = bservice.selectOne(bnum);
@@ -94,29 +118,28 @@ public class BoardController {
 		model.addAttribute("flist", resultMap.get("flist"));
 	}
 	
-	//¼öÁ¤
+	//ìˆ˜ì •
 	@RequestMapping(value="/modify", method = RequestMethod.POST)
 	public String boardModify(BoardDTO bdto,
 			@RequestParam(value="fnum", required = false) List<Integer> fnumList,
 			List<MultipartFile> bfiles,
 			RedirectAttributes rattr) throws Exception {
 		bservice.update(bdto,fnumList,bfiles );
-		rattr.addFlashAttribute("msg", "¼öÁ¤¿Ï·á");
+		rattr.addFlashAttribute("msg", "ìˆ˜ì •ì™„ë£Œ");
 		rattr.addAttribute("bnum", bdto.getBnum());
 		return "redirect:/board/list";
 	}
 	
-	//ÆÄÀÏ ´Ù¿î·Îµå
+	//íŒŒì¼ ë‹¤ìš´ë¡œë“œ
 	@RequestMapping("/filedownload")
 	public void fileDownload(String filename, HttpServletResponse response) throws Exception {
-		logger.info(filename);
 		fservice.fileDownload(filename, response);
 	}
 	
-	//¼¼¼Ç »èÁ¦(@SessionAttributes("pdto"))
+	//ì„¸ì…˜ ì‚­ì œ(@SessionAttributes("pdto"))
 	@RequestMapping("/sessionDelete")
 	public String sessionDelete(SessionStatus status) {
-		//¼¼¼ÇÀ» Áö¿î´Ù
+		//ì„¸ì…˜ì„ ì§€ìš´ë‹¤
 		status.setComplete();
 		return "redirect:/board/";
 	}
@@ -127,7 +150,7 @@ public class BoardController {
 	@RequestMapping("/mapgeo")
 	@ResponseBody
 	public Map<String, Double> geocodingFind(@RequestParam String addr) throws IOException, ParseException {
-		System.out.println(addr);
+		
 		Map<String, Double> resultmap = bservice.getGeocoding(addr);
 		return resultmap;
 	}

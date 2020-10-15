@@ -1,16 +1,16 @@
 package com.myboard.dto;
-//ÆäÀÌÂ¡Ã³¸®¿Í °Ë»öÃ³¸®
+//í˜ì´ì§•ì²˜ë¦¬ì™€ ê²€ìƒ‰ì²˜ë¦¬
 public class PageDTO {
-	private int curPage = 1; //ÇöÀçÆäÀÌÁö
-	private int perPage = 10; //ÇÑÆäÀÌÁö´ç °Ô½Ã¹°¼ö
-	private int perBlock = 5; //ÇÑÈ­¸éÀÇ ÆäÀÌÁö¼ö
-	private int totPage; //ÀüÃ¼ÆäÀÌÁö¼ö
-	private int startNo; //½ÃÀÛ¹øÈ£
-	private int endNo; //³¡¹øÈ£
-	private int startPage; //½ÃÀÛÆäÀÌÁö
-	private int endPage;   //³¡¹øÈ£
-	private String findKey;  //°Ë»öÅ°
-	private String findValue; //°Ë»ö°ª
+	private int curPage = 1; //í˜„ì¬í˜ì´ì§€
+	private int perPage = 10; //í•œí˜ì´ì§€ë‹¹ ê²Œì‹œë¬¼ìˆ˜
+	private int perBlock = 5; //í•œí™”ë©´ì˜ í˜ì´ì§€ìˆ˜
+	private int totPage; //ì „ì²´í˜ì´ì§€ìˆ˜
+	private int startNo; //ì‹œì‘ë²ˆí˜¸
+	private int endNo; //ëë²ˆí˜¸
+	private int startPage; //ì‹œì‘í˜ì´ì§€
+	private int endPage;   //ëë²ˆí˜¸
+	private String findKey;  //ê²€ìƒ‰í‚¤
+	private String findValue; //ê²€ìƒ‰ê°’
 	public PageDTO() {
 		super();
 	}

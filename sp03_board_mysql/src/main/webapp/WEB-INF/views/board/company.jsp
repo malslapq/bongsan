@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="../include/includeFile.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +17,6 @@
 				url : '/spring_mysql/board/mapgeo?addr='+addr,
 				dataType : 'json',
 				success : function(result){
-					alert('성공');
 					console.log(result);
 					/* $('#divresult').html('<label>위도 : </label>'+result.x);
 					$('#divresult').append('<br>');
@@ -24,7 +24,6 @@
 					mapDraw(result.x,result.y);
 				},
 				error : function(result){
-					alert('실패');
 					console.log(result);
 				}
 			});
@@ -46,6 +45,8 @@
 				
 			}
 			
+			
+			
 			$('#btnlist').on('click', function(){
 				$(location).attr('href', '/spring_mysql/board/');
 			});
@@ -57,11 +58,13 @@
 </script>
 </head>
 <body>
-	주소 : <input id="addr" type="text" value="서울 관악구 국회단지15길 32" readonly="readonly">
-	<button id="btnlist">돌아가기</button>
+	<div class="container">
+		<label>주소 :  </label><input id="addr" type="text" style="width: 400px" value="서울 중구 세종대로 110 서울특별시청">
+		<button class="btn btn-link" id="btnlist">돌아가기</button>
+	</div>
 	<div id="divresult">
 	</div>
 	
-	<div id="map" style="width:100%;height:400px;"></div>
+	<div class="container" id="map" style="height:600px;"></div>
 </body>
 </html>

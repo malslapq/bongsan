@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.myboard.dao.ReplyDAO;
 import com.myboard.dto.ReplyDTO;
 
-//´ä±Û
+//ë‹µê¸€
 @Service
 public class ReplyServiceimpl implements ReplyService{
 

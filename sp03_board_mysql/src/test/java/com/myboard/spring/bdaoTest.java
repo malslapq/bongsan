@@ -13,8 +13,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.myboard.dao.BoardDAO;
 import com.myboard.dto.BoardDTO;
 import com.myboard.dto.PageDTO;
+import com.myboard.service.LoginServiceimple;
 
-/*½ºÇÁ¸µ Å×½ºÆ®*/
+/*ìŠ¤í”„ë§ í…ŒìŠ¤íŠ¸*/
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/root-context.xml"})
 public class bdaoTest {
@@ -22,69 +23,75 @@ public class bdaoTest {
 	@Resource
 	private BoardDAO bdao;
 	
+	@Resource
+	private LoginServiceimple lservice;
+	
 	@Test
-	public void testTotolCount() throws Exception {
-		PageDTO pdto = new PageDTO();
-		int totCnt = bdao.totolCount(pdto);
-		System.out.println(totCnt);
-		Assert.assertEquals(250,totCnt);
+	private void assertEquals() {
+		
 	}
-
-	@Test
-	public void testSelectList() throws Exception {
-		PageDTO pdto = new PageDTO();
-		pdto.setStartNo(11);
-		pdto.setEndNo(20);
-		List<BoardDTO> blist = bdao.selectList(pdto);
-		System.out.println(blist);
-		Assert.assertNotNull(blist);
-	}
-
-	@Test
-	public void testSelectOne() throws Exception {
-		Assert.assertNotNull(bdao.selectOne(3));
-	}
-
-	@Test
-	public void testInsert() throws Exception {
-		BoardDTO bdto = new BoardDTO();
-		bdto.setWriter("È«±æµ¿");
-		bdto.setEmail("hong@gmail.com");
-		bdto.setSubject("Á¦¸ñ");
-		bdto.setContent("³»¿ë");
-		//bdao.insert(bdto) ÀÇ °á°ú°ªÀÌ 1°ú °°À¸¸é ¼º°ø
-		Assert.assertEquals(1, bdao.insert(bdto));
-	}
-
-	@Test
-	public void testUpdate() throws Exception {
-		BoardDTO bdto = new BoardDTO();
-		bdto.setBnum(3);
-		bdto.setWriter("È«±æµ¿");
-		bdto.setEmail("hong@gmail.com");
-		bdto.setSubject("Á¦¸ñ¼öÁ¤");
-		bdto.setContent("³»¿ë¼öÁ¤");
-		Assert.assertEquals(1, bdao.update(bdto));
-	}
-
-	@Test
-	public void testDelete() throws Exception {
-		Assert.assertEquals(1, bdao.delete(5));
-	}
-
-	@Test
-	public void testReadcnt_update() throws Exception {
-		Assert.assertEquals(1, bdao.readcnt_update(3));
-	}
-
-	@Test
-	public void testReplycntUp_update() throws Exception {
-		Assert.assertEquals(1, bdao.replycntUp_update(3));
-	}
-
-	@Test
-	public void testReplycntDown_update() throws Exception {
-		Assert.assertEquals(1, bdao.replycntDown_update(3));
-	}
+	
+//	@Test
+//	public void testTotolCount() throws Exception {
+//		PageDTO pdto = new PageDTO();
+//		int totCnt = bdao.totolCount(pdto);
+//		Assert.assertEquals(250,totCnt);
+//	}
+//
+//	@Test
+//	public void testSelectList() throws Exception {
+//		PageDTO pdto = new PageDTO();
+//		pdto.setStartNo(11);
+//		pdto.setEndNo(20);
+//		List<BoardDTO> blist = bdao.selectList(pdto);
+//		Assert.assertNotNull(blist);
+//	}
+//
+//	@Test
+//	public void testSelectOne() throws Exception {
+//		Assert.assertNotNull(bdao.selectOne(3));
+//	}
+//
+//	@Test
+//	public void testInsert() throws Exception {
+//		BoardDTO bdto = new BoardDTO();
+//		bdto.setWriter("í™ê¸¸ë™");
+//		bdto.setEmail("hong@gmail.com");
+//		bdto.setSubject("ì œëª©");
+//		bdto.setContent("ë‚´ìš©");
+//		//bdao.insert(bdto) ì˜ ê²°ê³¼ê°’ì´ 1ê³¼ ê°™ìœ¼ë©´ ì„±ê³µ
+//		Assert.assertEquals(1, bdao.insert(bdto));
+//	}
+//
+//	@Test
+//	public void testUpdate() throws Exception {
+//		BoardDTO bdto = new BoardDTO();
+//		bdto.setBnum(3);
+//		bdto.setWriter("í™ê¸¸ë™");
+//		bdto.setEmail("hong@gmail.com");
+//		bdto.setSubject("ì œëª©ìˆ˜ì •");
+//		bdto.setContent("ë‚´ìš©ìˆ˜ì •");
+//		Assert.assertEquals(1, bdao.update(bdto));
+//	}
+//
+//	@Test
+//	public void testDelete() throws Exception {
+//		Assert.assertEquals(1, bdao.delete(5));
+//	}
+//
+//	@Test
+//	public void testReadcnt_update() throws Exception {
+//		Assert.assertEquals(1, bdao.readcnt_update(3));
+//	}
+//
+//	@Test
+//	public void testReplycntUp_update() throws Exception {
+//		Assert.assertEquals(1, bdao.replycntUp_update(3));
+//	}
+//
+//	@Test
+//	public void testReplycntDown_update() throws Exception {
+//		Assert.assertEquals(1, bdao.replycntDown_update(3));
+//	}
 
 }

@@ -9,18 +9,19 @@ import org.springframework.web.multipart.MultipartFile;
 import com.myboard.dto.BFileDTO;
 
 public interface BFileService  {
-	//ÆÄÀÏ ÀúÀåÇÏ°í ÆÄÀÏ¸íÀ» ¸®ÅÏ
+	//íŒŒì¼ ì €ì¥í•˜ê³  íŒŒì¼ëª…ì„ ë¦¬í„´
 	public List<String> fileUpload(List<MultipartFile> files) throws Exception;
-	//ÆÄÀÏ¸í ¸®½ºÆ®¸¦ ÀÔ·Â¹Ş¾Æ ÆÄÀÏ¸í ÀúÀå
+	//íŒŒì¼ëª… ë¦¬ìŠ¤íŠ¸ë¥¼ ì…ë ¥ë°›ì•„ íŒŒì¼ëª… ì €ì¥
 	public int insert(int bnum, List<String> filenameList) throws Exception;
-	//ÆÄÀÏ ¸®½ºÆ®
+	//íŒŒì¼ ë¦¬ìŠ¤íŠ¸
 	public List<BFileDTO> selectList(int bnum) throws Exception;
-	//»èÁ¦
+	//ì‚­ì œ
 	public int delete(int bnum) throws Exception;
-	//¼öÁ¤½Ã ÀÏºÎ ÆÄÀÏ »èÁ¦
+	//ìˆ˜ì •ì‹œ ì¼ë¶€ íŒŒì¼ ì‚­ì œ
 	public int delete_part(int bnum, List<Integer> fnumList) throws Exception;
-	//ÆÄÀÏ ´Ù¿î·Îµå
+	//íŒŒì¼ ë‹¤ìš´ë¡œë“œ
 	public void fileDownload(String filename, HttpServletResponse response) throws Exception;
-	
+	//í”„ë¡œí•„ì‚¬ì§„ ì €ì¥
+	public String profileUpload(MultipartFile file) throws Exception;
 	
 }

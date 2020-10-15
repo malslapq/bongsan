@@ -26,7 +26,7 @@
 		
 		
 		//파일 삭제 버튼을 클릭했을때
-		$('#fileGroup').on('click','.btnFileDelete', function(e) {
+		$('#fileGroup').on('click','#btnFileDelete', function(e) {
 			e.preventDefault(); 
 			$(this).parent().remove();
 		});
@@ -38,7 +38,7 @@
 			//파일 선택 추가 
 			var appendHtml = '<div>' +
 							'<input type="file" name="bfiles">' +	
-							'<button class="btnFileDelete">삭제</button>'+		
+							'<button class="btn btn-danger" id="btnFileDelete">파일삭제</button>'+		
 							'</div>';
 			$('#fileGroup').append(appendHtml);
 			
@@ -50,28 +50,30 @@
 </script>
 </head>
 <body>
-	<h2>게시글 수정</h2>
+	<h2 class="alert alert-primary">게시글 수정</h2>
+	<div class="container">
+	<%@ include file="maininclude.jsp" %>
 	<form id="modifyForm">
-		<table border = "1">
+		<table class="table table-hover" >
 			<tr>
 				<td>번호</td>
-				<td><input id="bnum" type="text" name="bnum" value="${board.bnum}"></td>
+				<td><input id="bnum" type="text" class="form-control" style="width: 50%" name="bnum" value="${board.bnum}"></td>
 			</tr>		
 			<tr>
 				<td>작성자</td>
-				<td><input type="text" name="writer" value="${board.writer}"></td>
+				<td><input type="text" name="writer" class="form-control" style="width: 50%" value="${board.writer}"></td>
 			</tr>
 			<tr>
 				<td>이메일</td>
-				<td><input type="email" name="email" value="${board.email}"></td>
+				<td><input type="email" name="email" class="form-control" style="width: 50%" value="${board.email}"></td>
 			</tr>
 			<tr>
 				<td>제목</td>
-				<td> <input type="text" name="subject" value="${board.subject}"> </td>
+				<td> <input type="text" name="subject" class="form-control" style="width: 50%" value="${board.subject}"> </td>
 			</tr>
 			<tr>
 				<td>내용</td>
-				<td><textarea name ="content" rows="5" cols="20">${board.content}</textarea> </td>
+				<td><textarea name ="content" class="form-control" style="width: 50%" rows="5" cols="20">${board.content}</textarea> </td>
 			</tr>
 			<tr>
 				<td>파일</td>
@@ -81,24 +83,25 @@
 							<div>
 								<input type="hidden" name="fnum" value="${file.fnum}"> 
 								${file.filename}	
-								<button class="btnFileDelete">삭제</button>
+								<button class="btnFileDelete"id="btnFileDelete">삭제</button>
 							</div>
 						</c:forEach>
 						<div>
-							<input type="file" name="bfiles">	
-							<button class="btnFileDelete">삭제</button>		
+							<input type="file" class="form-control-file border" style="width: 50%" name="bfiles">	
+							<button class="btn btn-danger" id="btnFileDelete">파일삭제</button>		
 						</div>
 					</div>
 				</td>	
 			</tr>
 			<tr>
 				<td colspan="2">
-					<button id="btnAdd">저장</button>
-					<button id="btnList">목록</button>
+					<button class="btn" id="btnAdd">저장</button>
+					<button class="btn" id="btnList">목록</button>
 				</td>
 				
 			</tr>
 		</table>
 	</form>	
+	</div>
 </body>
 </html>

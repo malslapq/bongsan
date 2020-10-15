@@ -3,25 +3,40 @@ package com.myboard.dao;
 import java.util.List;
 
 import com.myboard.dto.BoardDTO;
+import com.myboard.dto.BoardLikeDTO;
 import com.myboard.dto.PageDTO;
 
 public interface BoardDAO {
-	//ÀüÃ¼ °Ç¼ö
+	//ì „ì²´ ê±´ìˆ˜
 	public int totolCount(PageDTO pdto) throws Exception;
-	//ÀüÃ¼Á¶È¸
+	//ì „ì²´ì¡°íšŒ
 	public List<BoardDTO> selectList(PageDTO pdto) throws Exception;
-	//ÇÑ°ÇÁ¶È¸
+	//í•œê±´ì¡°íšŒ
 	public BoardDTO selectOne(int bnum) throws Exception;
-	//Ãß°¡
+	//ì¶”ê°€
 	public int insert(BoardDTO bdto) throws Exception;
-	//¼öÁ¤
+	//ìˆ˜ì •
 	public int update(BoardDTO bdto) throws Exception;
-	//»èÁ¦
+	//ì‚­ì œ
 	public int delete(int bnum) throws Exception;
-	//Á¶È¸¼ö +1
+	//ì¡°íšŒìˆ˜ +1
 	public int readcnt_update(int bnum) throws Exception;
-	//´ñ±Û¼ö + 1
+	//ëŒ“ê¸€ìˆ˜ + 1
 	public int replycntUp_update(int bnum) throws Exception;
-	//´ñ±Û¼ö -1
+	//ëŒ“ê¸€ìˆ˜ -1
 	public int replycntDown_update(int bnum) throws Exception;
+	//ì¢‹ì•„ìš” ì¶”ê°€
+	public int likeinsert(BoardLikeDTO ldto) throws Exception;
+	//ì‹«ì–´ìš” ì¶”ê°€
+	public int dislikeinsert(BoardLikeDTO ldto) throws Exception;
+	//boardlike ì—…ë°ì´íŠ¸
+	public int likeupdate(BoardLikeDTO ldto) throws Exception;
+	public int dislikeupdate(BoardLikeDTO ldto) throws Exception;
+	//boardí…Œì´ë¸”ì˜ likecnt ì—…ë°ì´íŠ¸
+	public int boardLcntupdate(BoardDTO dto) throws Exception;
+	public int boardDlcntupdate(BoardDTO dto) throws Exception;
+	//boardlikeì‚­ì œ
+	public int likedelete(int bnum) throws Exception;
+	//like dislike í™•ì¸
+	public BoardLikeDTO likecheck(BoardLikeDTO ldto) throws Exception;
 }

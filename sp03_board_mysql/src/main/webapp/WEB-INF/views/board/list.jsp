@@ -4,24 +4,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-th, td {
-  text-align: left;
-  padding: 8px;
-}
-
-tr:nth-child(even){background-color: #f2f2f2}
-
-th {
-  background-color: #4CAF50;
-  color: white;
-}
-</style>
 <meta charset="UTF-8">
 <title>게시글조회</title>
 <script type="text/javascript">
@@ -49,7 +31,7 @@ th {
 		});
 		
 		//페이지를 클릭했을때
-		$('.aPage').on('click', function(e) {
+		$('.page-link').on('click', function(e) {
 			e.preventDefault(); //기본기능  소멸
 			var curPage = $(this).attr('href');
 			var findKey = $('#findKey').val();
@@ -59,43 +41,38 @@ th {
 			$(location).attr('href','${path}/board/list?curPage='+curPage+'&findKey='+findKey+'&findValue='+findValue);
 		});
 		
-		//세션삭제 클릭
-		$('#btnSessionDelete').on('click', function() {
-			$(location).attr('href','${path}/board/sessionDelete');
-		});
-		
-		
 	});
 
 </script>
 </head>
 <body>
-	<h2>게시글 조회</h2>
-	<div>
-		<select id ="findKey">
+	<h2 class="alert alert-light">게시판</h2>
+	<div class="container">
+	<%@ include file="maininclude.jsp" %>
+	<div class="navbar navbar-expand-sm bg-dark navbar-dark">
+		<select class="form-control" name="sellist1" id ="findKey" style="width: 30%">
 			<option value="writer" <c:out value="${pdto.findKey=='writer'?'selected':''}" />>작성자</option>
 			<option value="subject" <c:out value="${pdto.findKey=='subject'?'selected':''}" />>제목</option>
 			<option value="content" <c:out value="${pdto.findKey=='content'?'selected':''}" />>내용</option>
 			<option value="subcon" <c:out value="${pdto.findKey=='subcon'?'selected':''}" />>제목+내용</option>
 		</select>
-		<input type="text" id="findValue" value="${pdto.findValue}">
-		<input id="btnSearch" type="button" value="조회" class="btn btn-outline-dark">
-		<input id="btnAdd" type="button" value="추가" class="btn btn-outline-dark">
-		<input id="btnSessionDelete" type="button" value="세션값삭제" class="btn btn-outline-dark">
-
+		<input style="width: 70%" class="form-control mr-sm-2" placeholder="Search" type="text" id="findValue" value="${pdto.findValue}">
+		<input id="btnSearch" type="button" value="조회" class="btn btn-success">
+		<input id="btnAdd" type="button" value="글쓰기" class="btn btn-light">
 	</div>
 	<!-- 리스트 출력 -->
 	<div>
-		<table border="1">
+		<table class="table table-dark table-striped">
 			<tr>
 				<th>순번</th>
-				<th>작성자</th>
-				<th>제목</th>
+				<th style="width: 20%">작성자</th>
+				<th style="width: 40%">제목</th>
 				<th>이메일</th>
 				<th>조회수</th>
+				<th>좋아요</th>
+				<th>싫어요</th>
 				<th>댓글수</th>
 			</tr>
-		
 			<c:forEach var="board" items="${blist}">
 				<tr>
 					<td>${board.bnum}</td>
@@ -103,6 +80,8 @@ th {
 					<td><a class="aSubject" href="${board.bnum}" >${board.subject}</a></td>
 					<td>${board.email}</td>
 					<td>${board.readcnt}</td>
+					<td>${board.likecnt}</td>
+					<td>${board.dislikecnt}</td>
 					<td>${board.replycnt}</td>
 				</tr>
 			</c:forEach>
@@ -110,17 +89,18 @@ th {
 	</div>
 	<!-- 페이징 처리 -->
 	<div>
+	<ul class="pagination">
 		<c:if test="${pdto.startPage!=1}">
-			<a class ="aPage" href="${pdto.startPage-1}">이전</a>
+			<li class="page-item"><a class="page-link" href="${pdto.startPage-1}">이전</a></li>
 		</c:if> 
 		<c:forEach var="i" begin="${pdto.startPage}" end="${pdto.endPage}">
-			<a class ="aPage" href="${i}"> ${i}</a>
+			<li class="page-item"><a class ="page-link" href="${i}"> ${i}</a></li>
 		</c:forEach>
 		<c:if test="${pdto.endPage < pdto.totPage}">
-			<a class ="aPage" href="${pdto.endPage+1}">다음</a>
+			<li class="page-item"><a class ="page-link" href="${pdto.endPage+1}">다음</a></li>
 		</c:if>
-		
+	</ul>
 	</div>
-	
+	</div>
 </body>
 </html>

@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/root-context.xml"})
 public class mybatisTest {
-	//¿«¡∏ ¡÷¿‘(DI)
+	//ÏùòÏ°¥ Ï£ºÏûÖ(DI)
 //	@Inject 
 //	@Autowired
 	@Resource
@@ -28,8 +28,8 @@ public class mybatisTest {
 	
 	@Test
 	public void test() {
-//		System.out.println("∆—≈‰∏Æ:"+sf);
-//		System.out.println("ººº«:" + session);
+//		System.out.println("Ìå©ÌÜ†Î¶¨:"+sf);
+//		System.out.println("ÏÑ∏ÏÖò:" + session);
 		
 		Assert.assertNotNull(sf);
 		Assert.assertNotNull(session);

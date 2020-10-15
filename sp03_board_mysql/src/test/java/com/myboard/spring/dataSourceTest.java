@@ -14,17 +14,17 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-/*½ºÇÁ¸µ Å×½ºÆ®*/
+/*ìŠ¤í”„ë§ í…ŒìŠ¤íŠ¸*/
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/root-context.xml"})
 public class dataSourceTest {
-	//DataSource °´Ã¼ ÀÚµ¿ ÁÖÀÔ
+	//DataSource ê°ì²´ ìë™ ì£¼ì…
 	@Inject
 	private DataSource ds ; 
 	
 	@Test
 	public void test() {
-//		//µ¥ÀÌÅÍ ¼Ò½º Å×½ºÆ®
+//		//ë°ì´í„° ì†ŒìŠ¤ í…ŒìŠ¤íŠ¸
 //		try {
 //			Connection con = ds.getConnection();
 //			System.out.println(con);

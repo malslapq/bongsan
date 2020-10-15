@@ -9,7 +9,7 @@ public class ReplyDTO {
 	private int bnum;
 	private String writer; 
 	private String content;
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul") //Æ÷¸ËÇü½ÄÁöÁ¤
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul") //í¬ë§·í˜•ì‹ì§€ì •
 	private Date regdate;
 	public int getRnum() {
 		return rnum;

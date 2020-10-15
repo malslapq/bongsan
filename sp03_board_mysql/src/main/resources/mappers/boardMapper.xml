@@ -35,6 +35,7 @@
 	<select id="selectOne" resultType="BoardDTO">
 		select * from board where bnum = #{bnum}
 	</select>
+	
 	<!-- 생성된 bnum리턴 -->
 	<insert id="insert" parameterType="BoardDTO">
 		<selectKey keyProperty="bnum" resultType="int" order="BEFORE"> 
@@ -65,7 +66,7 @@
 		set readcnt = readcnt + 1
 		where bnum = #{bnum}
 	</update> 
-		
+	
 	<!-- 댓글수 +1 -->
 	<update id="replycntUp_update">
 		update board
@@ -80,10 +81,53 @@
 		where bnum = #{bnum}
 	</update> 
 	
+	<!-- like테이블 조회 -->
+	<select id="likecheck" parameterType="BoardLikeDTO" resultType="BoardLikeDTO">
+		select * from boardlike where bnum = #{bnum} and userid = #{userid}
+	</select>
 	
-
+	<!-- like insert -->
+	<update id="likeinsert" parameterType="BoardLikeDTO">
+		insert into boardlike 
+		values (#{bnum}, #{userid}, #{likecnt}, #{dislikecnt})
+	</update>
 	
+	<!-- like update -->
+	<update id="likeupdate" parameterType="BoardLikeDTO">
+		update boardlike 
+		set likecnt = #{likecnt} 
+		where bnum = #{bnum}
+		and userid = #{userid} 
+	</update>
 	
+	<!-- dislike insert -->
+	<update id="dislikeinsert" parameterType="BoardLikeDTO">
+		insert into boardlike 
+		values (#{bnum}, #{userid}, #{likecnt}, #{dislikecnt})
+	</update>
 	
+	<!-- dislike update -->
+	<update id="dislikeupdate" parameterType="BoardLikeDTO">
+		update boardlike 
+		set dislikecnt = #{dislikecnt} 
+		where bnum = #{bnum}
+		and userid = #{userid} 
+	</update>
+	
+	<update id="boardLcntupdate" parameterType="BoardDTO">
+		update board
+		set likecnt = likecnt + #{likecnt}
+		where bnum = #{bnum}
+	</update>
+	<update id="boardDLcntupdate" parameterType="BoardDTO">
+		update board
+		set dislikecnt = dislikecnt + #{dislikecnt}
+		where bnum = #{bnum}
+	</update>
+	
+	<delete id="boardlikedelete">
+		delete from boardlike
+		where bnum = #{bnum}
+	</delete>
 	
 </mapper>

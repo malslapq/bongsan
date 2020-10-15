@@ -16,7 +16,7 @@ import com.myboard.dto.ReplyDTO;
 import com.myboard.service.BoardService;
 import com.myboard.service.ReplyService;
 
-//Controller + ResponseBody ÀÇ ±â´É
+//Controller + ResponseBody ì˜ ê¸°ëŠ¥
 @RestController
 @RequestMapping("/reply")
 public class ReplyController {
@@ -27,40 +27,39 @@ public class ReplyController {
 	@Resource
 	private BoardService bservice;
 	
-	//´ñ±Û Ãß°¡, requestbody - jsonÇüÅÂ·Î ¹ŞÀ½
+	//ëŒ“ê¸€ ì¶”ê°€, requestbody - jsoní˜•íƒœë¡œ ë°›ìŒ
 	@RequestMapping(value="/", method = RequestMethod.POST, produces="application/text; charset=utf-8")
 	public ResponseEntity<String> insert(@RequestBody ReplyDTO rdto) throws Exception {
 		bservice.replycntUp_update(rdto.getBnum());
 		service.insert(rdto);
-		return new ResponseEntity<>("Ãß°¡¿Ï·á", HttpStatus.OK);
-//		return new ResponseEntity<>("½ÇÆĞ", HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>("ì¶”ê°€ì™„ë£Œ", HttpStatus.OK);
+//		return new ResponseEntity<>("ì‹¤íŒ¨", HttpStatus.BAD_REQUEST);
 	}
 	
 	
-	//´ñ±Û ÀüÃ¼Á¶È¸
+	//ëŒ“ê¸€ ì „ì²´ì¡°íšŒ
 	@RequestMapping(value="/{bnum}", method = RequestMethod.GET)
 	public ResponseEntity<List<ReplyDTO>> list(@PathVariable("bnum") int bnum) throws Exception {
 		List<ReplyDTO> list = service.selectList(bnum);
 		return new ResponseEntity<>(list, HttpStatus.OK);
-		
 	}
 	
-	//´ñ±Û »èÁ¦
+	//ëŒ“ê¸€ ì‚­ì œ
 	@RequestMapping(value="/{rnum}", method = RequestMethod.DELETE, produces="application/text; charset=utf-8")
 	public ResponseEntity<String> delete(@PathVariable("rnum") int rnum,@RequestBody ReplyDTO rdto) throws Exception {
 		bservice.replycntDown_update(rdto.getBnum());
 		service.delete(rnum);
-		//ÀÀ´ä°´Ã¼¸¦ »ı¼ºÇØ¼­ »óÅÂ°ª °°ÀÌ Àü¼Û
-		return new ResponseEntity<>("»èÁ¦¿Ï·á", HttpStatus.OK);
+		//ì‘ë‹µê°ì²´ë¥¼ ìƒì„±í•´ì„œ ìƒíƒœê°’ ê°™ì´ ì „ì†¡
+		return new ResponseEntity<>("ì‚­ì œì™„ë£Œ", HttpStatus.OK);
 	}
 	
-	//´ñ±Û Ãß°¡, requestbody - jsonÇüÅÂ·Î ¹ŞÀ½
+	//ëŒ“ê¸€ ì¶”ê°€, requestbody - jsoní˜•íƒœë¡œ ë°›ìŒ
 	@RequestMapping(value="/{rnum}", method = {RequestMethod.PUT,RequestMethod.PATCH}, produces="application/text; charset=utf-8")
 	public ResponseEntity<String> update(@PathVariable("rnum") int rnum,@RequestBody ReplyDTO rdto) throws Exception {
 		rdto.setRnum(rnum);
 		service.update(rdto);
-		return new ResponseEntity<>("¼öÁ¤¿Ï·á", HttpStatus.OK);
-//			return new ResponseEntity<>("½ÇÆĞ", HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>("ìˆ˜ì •ì™„ë£Œ", HttpStatus.OK);
+//			return new ResponseEntity<>("ì‹¤íŒ¨", HttpStatus.BAD_REQUEST);
 	}
 		
 }

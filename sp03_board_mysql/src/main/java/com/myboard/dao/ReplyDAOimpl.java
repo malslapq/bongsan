@@ -13,8 +13,8 @@ import com.myboard.dto.ReplyDTO;
 @Repository
 public class ReplyDAOimpl implements ReplyDAO{
 	
-	@Resource
-	private SqlSessionFactory ssf;
+//	@Resource
+//	private SqlSessionFactory ssf;
 	@Resource
 	private SqlSession session;
 	

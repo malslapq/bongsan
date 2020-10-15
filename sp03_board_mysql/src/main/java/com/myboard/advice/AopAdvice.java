@@ -12,26 +12,26 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class AopAdvice {
 	
-	//board ÄÁÆ®·Ñ·¯ ¸Å°³º¯¼ö Ãâ·Â
+	//board ì»¨íŠ¸ë¡¤ëŸ¬ ë§¤ê°œë³€ìˆ˜ ì¶œë ¥
 	@Before("execution(* com.myboard.controller.*.*(..))")
-	public void startLogController(JoinPoint jp) { //¾îµå¹ÙÀÌ½º(¹«¾ùÀ»)
-		System.out.println(jp.getSignature().toLongString() +":¸Å°³º¯¼ö" + Arrays.toString(jp.getArgs()) );
+	public void startLogController(JoinPoint jp) { //ì–´ë“œë°”ì´ìŠ¤(ë¬´ì—‡ì„)
+		System.out.println(jp.getSignature().toLongString() +":ë§¤ê°œë³€ìˆ˜" + Arrays.toString(jp.getArgs()) );
 	}
 	
-	//dao ¸Å°³º¯¼ö Ãâ·Â
+	//dao ë§¤ê°œë³€ìˆ˜ ì¶œë ¥
 	@Before("execution(* com.myboard.dao.*.*(..))")
-	public void startLogDAO(JoinPoint jp) { //¾îµå¹ÙÀÌ½º(¹«¾ùÀ»)
-		System.out.println("--¸Å°³º¯¼ö:" + jp.getSignature().toLongString());
+	public void startLogDAO(JoinPoint jp) { //ì–´ë“œë°”ì´ìŠ¤(ë¬´ì—‡ì„)
+		System.out.println("--ë§¤ê°œë³€ìˆ˜:" + jp.getSignature().toLongString());
 		System.out.println("*** " + Arrays.toString(jp.getArgs()));
 	}
 	
-	//¸Ş¼Òµå ¹İÈ¯°ª Ãâ·Â
-	//pointcut : Àû¿ëÇÒ ´ë»ó
-	//Àû¿ë´ë»ó Á¤»ó¼öÇàÈÄ
+	//ë©”ì†Œë“œ ë°˜í™˜ê°’ ì¶œë ¥
+	//pointcut : ì ìš©í•  ëŒ€ìƒ
+	//ì ìš©ëŒ€ìƒ ì •ìƒìˆ˜í–‰í›„
 	@AfterReturning(pointcut="execution(* com.myboard.service.*.*(..))", returning = "rObj")
 	public void afterLog(JoinPoint jp, Object rObj) {
 		if (rObj != null) {
-			System.out.println("--¸®ÅÏ°ª:" + jp.getSignature().toLongString());
+			System.out.println("--ë¦¬í„´ê°’:" + jp.getSignature().toLongString());
 			System.out.println("*** " + rObj.toString());
 		}
 	}

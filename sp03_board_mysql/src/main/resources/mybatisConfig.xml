@@ -11,5 +11,7 @@
 		<typeAlias type="com.myboard.dto.BoardDTO" alias="BoardDTO"/>
 		<typeAlias type="com.myboard.dto.BFileDTO" alias="BFileDTO"/>
 		<typeAlias type="com.myboard.dto.ReplyDTO" alias="ReplyDTO"/>
+		<typeAlias type="com.myboard.dto.MemberDTO" alias="MemberDTO"/>
+		<typeAlias type="com.myboard.dto.BoardLikeDTO" alias="BoardLikeDTO"/>
 	</typeAliases>
 </configuration>

@@ -18,7 +18,8 @@
 	<!-- 리소스의 매핑정보 알리아스 -->	
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="/img/**" location="/resources/images/" />
-	<resources mapping="/localimg/**" location="file:///D:/ksy/fileUpload/" />
+	<resources mapping="/localimg/**" location="file:///D:/hsh/fileUpload/" />
+	<resources mapping="/images/**" location="/resources/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -35,7 +36,7 @@
 	<!-- 파일업로드 처리하는 객체 -->
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<beans:property name="maxUploadSize" value="10485760"/>
+		<beans:property name="maxUploadSize" value="50000000"/>
 	</beans:bean>
 	
 

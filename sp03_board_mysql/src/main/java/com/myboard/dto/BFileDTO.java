@@ -3,10 +3,10 @@ package com.myboard.dto;
 import java.util.Date;
 
 public class BFileDTO {
-	private int bnum; //°Ô½Ã¹°¹øÈ£
-	private int fnum; //ÆÄÀÏ¹øÈ£
-	private String filename; //ÆÄÀÏÀÌ¸§
-	private Date regdate; //µî·ÏÀÏÀÚ
+	private int bnum; //ê²Œì‹œë¬¼ë²ˆí˜¸
+	private int fnum; //íŒŒì¼ë²ˆí˜¸
+	private String filename; //íŒŒì¼ì´ë¦„
+	private Date regdate; //ë“±ë¡ì¼ì
 	public BFileDTO() {
 		super();
 	}
